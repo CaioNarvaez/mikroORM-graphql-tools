@@ -1,13 +1,12 @@
-import { Collection, Entity, Enum, OneToMany, Property } from '@mikro-orm/core';
+import { Collection, Entity, Enum, OneToMany, Property } from '@mikro-orm/postgresql';
 import { PublisherType } from 'contracts/enums/publisherType.enum';
-import { PublisherValidator } from 'contracts/validators/publisher.validator';
 import { Book } from 'entities/book.entity';
 import { Field, ObjectType } from 'type-graphql';
 import { Base } from 'utils/entities/base.entity';
 
 @ObjectType()
 @Entity()
-export class Publisher extends Base<Publisher> {
+export class Publisher extends Base {
   @Field()
   @Property()
   public name: string;
@@ -20,7 +19,9 @@ export class Publisher extends Base<Publisher> {
   @OneToMany(() => Book, (b: Book) => b.publisher)
   public books = new Collection<Book>(this);
 
-  constructor(body: PublisherValidator) {
-    super(body);
+  constructor(props: { name: string, type: PublisherType}) {
+    super(props);
+    this.name = props.name;
+    this.type = props.type;
   }
 }

@@ -1,7 +1,6 @@
 import express from 'express';
 import 'express-async-errors';
 
-import { Connection, IDatabaseDriver, MikroORM } from '@mikro-orm/core';
 import bodyParser from 'body-parser';
 import { PublisherType } from 'contracts/enums/publisherType.enum';
 import cors from 'cors';
@@ -14,6 +13,7 @@ import { AuthorResolver } from 'resolvers/author.resolver';
 import { BookResolver } from 'resolvers/book.resolver';
 import { buildSchema, registerEnumType } from 'type-graphql';
 import { MyContext } from 'utils/interfaces/context.interface';
+import { initOrm, orm } from 'orm';
 
 // TODO: create service for this
 registerEnumType(PublisherType, {
@@ -22,21 +22,15 @@ registerEnumType(PublisherType, {
 });
 
 export default class Application {
-  public orm: MikroORM<IDatabaseDriver<Connection>>;
-  public host: express.Application;
-  public server: Server;
+  public host: express.Application | null = null;
+  public server: Server | null = null;
 
   public connect = async (): Promise<void> => {
     try {
-      this.orm = await MikroORM.init(ormConfig);
-      const migrator = this.orm.getMigrator();
-      const migrations = await migrator.getPendingMigrations();
-      if (migrations && migrations.length > 0) {
-        await migrator.up();
-      }
+      await initOrm({config: ormConfig, migrateDb: true});
     } catch (error) {
       console.error('📌 Could not connect to the database', error);
-      throw Error(error);
+      throw new Error('Failed trying to connect to the database');
     }
   };
 
@@ -60,7 +54,7 @@ export default class Application {
         bodyParser.json(),
         graphqlHTTP((req, res) => ({
           schema,
-          context: { req, res, em: this.orm.em.fork() } as MyContext,
+          context: { req, res, em: orm.entityManager.fork() } as MyContext,
           customFormatErrorFn: (error) => {
             throw error;
           },
@@ -68,7 +62,7 @@ export default class Application {
       );
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      this.host.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction): void => {
+      this.host.use((error: Error, req: express.Request, res: express.Response): void => {
         console.error('📌 Something went wrong', error);
         res.status(400).send(error);
       });
