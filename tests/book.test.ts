@@ -1,7 +1,7 @@
 import { EntityManager } from '@mikro-orm/postgresql';
 import Application from 'application';
 import { expect } from 'chai';
-import { orm } from 'orm';
+import { orm } from 'config/orm';
 import { SuperTest, Test } from 'supertest';
 import supertest = require('supertest');
 import createSimpleUuid from 'utils/helpers/createSimpleUuid.helper';

@@ -1,6 +1,6 @@
 import { EntityManager } from '@mikro-orm/postgresql';
 import Application from 'application';
-import { orm } from 'orm';
+import { orm } from 'config/orm';
 import { SuperTest, Test } from 'supertest';
 import supertest = require('supertest');
 import { clearDatabase } from 'utils/services/clearDatabase.service';

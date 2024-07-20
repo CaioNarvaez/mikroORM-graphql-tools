@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { MikroORM } from '@mikro-orm/postgresql';
-import { PublisherType } from 'contracts/enums/publisherType.enum';
+import { PublisherType } from 'enums/publisherType.enum';
 import { Author } from 'entities/author.entity';
 import { Book } from 'entities/book.entity';
 import { Publisher } from 'entities/publisher.entity';

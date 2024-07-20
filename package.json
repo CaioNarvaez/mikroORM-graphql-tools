@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "8.4.1",
+    "@graphql-tools/schema": "^10.0.4",
     "@mikro-orm/cli": "6.3.0",
     "@mikro-orm/migrations": "6.3.0",
     "@mikro-orm/postgresql": "6.3.0",

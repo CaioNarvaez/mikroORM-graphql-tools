@@ -1,7 +1,7 @@
 import { Collection, Entity, ManyToMany, Property } from '@mikro-orm/postgresql';
 import { Book } from 'entities/book.entity';
 import { Field, ObjectType } from 'type-graphql';
-import { Base } from 'utils/entities/base.entity';
+import { Base } from 'entities/base.entity';
 
 @ObjectType()
 @Entity()

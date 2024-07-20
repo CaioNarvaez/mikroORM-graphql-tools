@@ -1,6 +1,6 @@
 import { Cascade, Collection, Entity, ManyToOne, OneToMany, Property, Unique } from '@mikro-orm/postgresql';
 import { Field, ObjectType } from 'type-graphql';
-import { Base } from 'utils/entities/base.entity';
+import { Base } from 'entities/base.entity';
 import { Book } from './book.entity';
 
 @ObjectType()

@@ -3,7 +3,7 @@ import { Author } from 'entities/author.entity';
 import { Publisher } from 'entities/publisher.entity';
 import { Tag } from 'entities/tag.entity';
 import { Field, ObjectType } from 'type-graphql';
-import { Base } from 'utils/entities/base.entity';
+import { Base } from 'entities/base.entity';
 
 @ObjectType()
 @Entity()
