@@ -1,6 +1,7 @@
-import { Connection, EntityManager, IDatabaseDriver } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/postgresql';
 import Application from 'application';
 import { expect } from 'chai';
+import { orm } from 'orm';
 import { SuperTest, Test } from 'supertest';
 import supertest = require('supertest');
 import createSimpleUuid from 'utils/helpers/createSimpleUuid.helper';
@@ -9,7 +10,7 @@ import { loadFixtures } from 'utils/services/loadFixtures.service';
 
 let request: SuperTest<Test>;
 let application: Application;
-let em: EntityManager<IDatabaseDriver<Connection>>;
+let em: EntityManager;
 
 describe('Book tests', async () => {
   before(async () => {
@@ -17,17 +18,20 @@ describe('Book tests', async () => {
     await application.connect();
     await application.init();
 
-    em = application.orm.em.fork();
+    em = orm.entityManager.fork();
 
     request = supertest(application.host);
   });
 
   beforeEach(async () => {
-    await clearDatabase(application.orm);
-    await loadFixtures(application.orm);
+    await clearDatabase(orm.orm);
+    await loadFixtures(orm.orm);
   });
 
   after(async () => {
+    if(!application.server) {
+      return;
+    }
     application.server.close();
   });
 

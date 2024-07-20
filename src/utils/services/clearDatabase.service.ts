@@ -1,7 +1,10 @@
-import { Connection, IDatabaseDriver, MikroORM } from '@mikro-orm/core';
+import { MikroORM } from '@mikro-orm/postgresql';
 
-export const clearDatabase = async (orm: MikroORM<IDatabaseDriver<Connection>>): Promise<void> => {
-  await orm.getSchemaGenerator().dropSchema(true, true);
+export const clearDatabase = async (orm: MikroORM): Promise<void> => {
+  await orm.getSchemaGenerator().dropSchema({
+    dropDb: true,
+    dropForeignKeys: true,
+  });
   const migrator = orm.getMigrator();
   const migrations = await migrator.getPendingMigrations();
   if (migrations && migrations.length > 0) {

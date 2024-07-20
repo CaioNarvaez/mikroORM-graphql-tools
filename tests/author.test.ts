@@ -1,4 +1,4 @@
-import { Connection, EntityManager, IDatabaseDriver } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/postgresql';
 import { expect } from 'chai';
 import { SuperTest, Test } from 'supertest';
 import supertest = require('supertest');
@@ -7,10 +7,11 @@ import { clearDatabase } from 'utils/services/clearDatabase.service';
 import { loadFixtures } from 'utils/services/loadFixtures.service';
 
 import Application from 'application';
+import { orm } from 'orm';
 
 let request: SuperTest<Test>;
 let application: Application;
-let em: EntityManager<IDatabaseDriver<Connection>>;
+let em: EntityManager;
 
 describe('Author tests', async () => {
   before(async () => {
@@ -18,17 +19,20 @@ describe('Author tests', async () => {
     await application.connect();
     await application.init();
 
-    em = application.orm.em.fork();
+    em = orm.entityManager.fork();
 
     request = supertest(application.host);
   });
 
   beforeEach(async () => {
-    await clearDatabase(application.orm);
-    await loadFixtures(application.orm);
+    await clearDatabase(orm.orm);
+    await loadFixtures(orm.orm);
   });
 
   after(async () => {
+    if(!application.server) {
+      return;
+    }
     application.server.close();
   });
 

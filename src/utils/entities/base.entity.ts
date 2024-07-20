@@ -1,9 +1,9 @@
-import { BaseEntity, PrimaryKey, Property } from '@mikro-orm/core';
+import { BaseEntity, PrimaryKey, Property } from '@mikro-orm/postgresql';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { v4 } from 'uuid';
 
 @ObjectType({ isAbstract: true })
-export class Base<T extends { id: string }> extends BaseEntity<T, 'id'> {
+export class Base extends BaseEntity {
   @Field(() => ID)
   @PrimaryKey({ type: 'uuid' })
   public id: string = v4();

@@ -1,5 +1,4 @@
-import { Cascade, Collection, Entity, ManyToMany, ManyToOne, Property } from '@mikro-orm/core';
-import BookValidator from 'contracts/validators/Book.validator';
+import { Cascade, Collection, Entity, ManyToMany, ManyToOne, Property } from '@mikro-orm/postgresql';
 import { Author } from 'entities/author.entity';
 import { Publisher } from 'entities/publisher.entity';
 import { Tag } from 'entities/tag.entity';
@@ -8,13 +7,13 @@ import { Base } from 'utils/entities/base.entity';
 
 @ObjectType()
 @Entity()
-export class Book extends Base<Book> {
+export class Book extends Base {
   @Field()
   @Property()
   public title: string;
 
   @Field(() => Author)
-  @ManyToOne(() => Author, { onDelete: 'cascade' })
+  @ManyToOne(() => Author, { deleteRule: 'cascade' })
   public author: Author;
 
   @Field(() => Publisher, { nullable: true })
@@ -25,7 +24,9 @@ export class Book extends Base<Book> {
   @ManyToMany(() => Tag)
   public tags = new Collection<Tag>(this);
 
-  constructor(body: BookValidator) {
-    super(body);
+  constructor(props: { title: string, author: Author }) {
+    super(props);
+    this.title = props.title;
+    this.author = props.author;
   }
 }
