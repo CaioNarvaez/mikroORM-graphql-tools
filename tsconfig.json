@@ -16,7 +16,7 @@
     "esModuleInterop": true,
     "declaration": true,
     "baseUrl": ".",
-    "typeRoots": ["src/utils/types", "node_modules/@types"],
+    "typeRoots": ["src/config/types", "node_modules/@types"],
     "paths": {
       "*": ["./src/*", "./tests/*"]
     }

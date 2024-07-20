@@ -7,7 +7,7 @@ import { clearDatabase } from 'utils/services/clearDatabase.service';
 import { loadFixtures } from 'utils/services/loadFixtures.service';
 
 import Application from 'application';
-import { orm } from 'orm';
+import { orm } from 'config/orm';
 
 let request: SuperTest<Test>;
 let application: Application;
