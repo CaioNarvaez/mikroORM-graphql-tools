@@ -2,12 +2,12 @@ import { EntityManager } from '@mikro-orm/postgresql';
 import { expect } from 'chai';
 import { SuperTest, Test } from 'supertest';
 import supertest = require('supertest');
-import createSimpleUuid from 'utils/helpers/createSimpleUuid.helper';
-import { clearDatabase } from 'utils/services/clearDatabase.service';
-import { loadFixtures } from 'utils/services/loadFixtures.service';
+import { clearDatabase } from 'scripts/db/clearDatabase';
+import { seedDatabase } from 'scripts/db/seedDatabase';
 
 import Application from 'application';
 import { orm } from 'config/orm';
+import { v4 } from 'uuid';
 
 let request: SuperTest<Test>;
 let application: Application;
@@ -26,7 +26,7 @@ describe('Author tests', async () => {
 
   beforeEach(async () => {
     await clearDatabase(orm.orm);
-    await loadFixtures(orm.orm);
+    await seedDatabase(orm.orm);
   });
 
   after(async () => {
@@ -60,7 +60,7 @@ describe('Author tests', async () => {
       .post('/graphql')
       .send({
         query: `query {
-          getAuthor(id: "${createSimpleUuid(1)}") {
+          getAuthor(id: "${v4()}") {
             id name born email
             books {
               id title tags {
@@ -112,7 +112,7 @@ describe('Author tests', async () => {
             email: "updated@email.com",
             name: "update name",
             born: "${new Date().toISOString()}"
-          }, id: "${createSimpleUuid(1)}") {
+          }, id: "${v4()}") {
             id name born email
             books {
               id title tags {
@@ -133,7 +133,7 @@ describe('Author tests', async () => {
       .post('/graphql')
       .send({
         query: `mutation {
-          deleteAuthor (id: "${createSimpleUuid(1)}")
+          deleteAuthor (id: "${v4()}")
         }
         `,
       })

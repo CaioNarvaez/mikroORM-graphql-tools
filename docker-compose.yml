@@ -10,7 +10,7 @@ services:
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=mikro-orm-graphql-data
+      - POSTGRES_DB=postgres
 
 volumes:
   db_data: ~

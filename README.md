@@ -18,13 +18,13 @@ docker-compose up -d
 PORT=8080
 POSTGRES_USER=root
 POSTGRES_PASSWORD=root
-POSTGRES_DB=mikro-orm-graphql-data
+POSTGRES_DB=postgres
 NODE_DEV=false
 ```
 
 - Seed database
 ```
-yarn loadFixtures
+yarn seed
 ```
 
 - Generate graphql schema for resolver typesafety

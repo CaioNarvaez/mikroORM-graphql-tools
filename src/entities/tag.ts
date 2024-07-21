@@ -1,21 +1,17 @@
 import { Collection, Entity, ManyToMany, Property } from '@mikro-orm/postgresql';
-import { Book } from 'entities/book.entity';
-import { Field, ObjectType } from 'type-graphql';
-import { Base } from 'entities/base.entity';
+import { AbstractBaseEntity } from './abstractBaseEntity';
+import { Book } from './book';
 
-@ObjectType()
 @Entity()
-export class Tag extends Base {
-  @Field()
+export class Tag extends AbstractBaseEntity {
   @Property()
   public name: string;
-
-  @Field(() => [Book])
+  
   @ManyToMany(() => Book, (b: Book) => b.tags)
   public books = new Collection<Book>(this);
 
   constructor(props: { name: string }) {
-    super(props);
+    super();
     this.name = props.name;
   }
 }

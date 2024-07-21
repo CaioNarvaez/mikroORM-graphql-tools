@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import { orm } from 'config/orm';
 import { SuperTest, Test } from 'supertest';
 import supertest = require('supertest');
-import createSimpleUuid from 'utils/helpers/createSimpleUuid.helper';
-import { clearDatabase } from 'utils/services/clearDatabase.service';
-import { loadFixtures } from 'utils/services/loadFixtures.service';
+import { clearDatabase } from 'scripts/db/clearDatabase';
+import { seedDatabase } from 'scripts/db/seedDatabase';
+import { v4 } from 'uuid';
 
 let request: SuperTest<Test>;
 let application: Application;
@@ -25,7 +25,7 @@ describe('Book tests', async () => {
 
   beforeEach(async () => {
     await clearDatabase(orm.orm);
-    await loadFixtures(orm.orm);
+    await seedDatabase(orm.orm);
   });
 
   after(async () => {
@@ -66,7 +66,7 @@ describe('Book tests', async () => {
       .post('/graphql')
       .send({
         query: `query {
-          getBook(id: "${createSimpleUuid(1)}") {
+          getBook(id: "${v4()}") {
             id title author {
               id email
             }
@@ -96,8 +96,8 @@ describe('Book tests', async () => {
             input: {
               title: "new Book",
             },
-            authorId: "${createSimpleUuid(1)}"
-            publisherId: "${createSimpleUuid(1)}"
+            authorId: "${v4()}"
+            publisherId: "${v4()}"
           ) {
             id title author {
               id email
@@ -126,7 +126,7 @@ describe('Book tests', async () => {
         query: `mutation {
           updateBook (input: {
             title: "updated book",
-          }, id: "${createSimpleUuid(1)}") {
+          }, id: "${v4()}") {
             id title author {
               id email
             }
@@ -152,7 +152,7 @@ describe('Book tests', async () => {
       .post('/graphql')
       .send({
         query: `mutation {
-          deleteBook (id: "${createSimpleUuid(1)}")
+          deleteBook (id: "${v4()}")
         }
         `,
       })

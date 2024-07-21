@@ -1,16 +1,12 @@
 import { Cascade, Collection, Entity, ManyToOne, OneToMany, Property, Unique } from '@mikro-orm/postgresql';
-import { Field, ObjectType } from 'type-graphql';
-import { Base } from 'entities/base.entity';
-import { Book } from './book.entity';
+import { Book } from './book';
+import { AbstractBaseEntity } from './abstractBaseEntity';
 
-@ObjectType()
 @Entity()
-export class Author extends Base {
-  @Field()
+export class Author extends AbstractBaseEntity {
   @Property()
   public name: string;
 
-  @Field()
   @Property()
   @Unique()
   public email: string;
@@ -18,20 +14,17 @@ export class Author extends Base {
   @Property()
   public termsAccepted = false;
 
-  @Field({ nullable: true })
   @Property({ nullable: true })
   public born?: Date;
 
-  @Field(() => [Book])
   @OneToMany(() => Book, (b: Book) => b.author, { cascade: [Cascade.ALL] })
   public books = new Collection<Book>(this);
 
-  @Field(() => Book, { nullable: true })
   @ManyToOne(() => Book, { nullable: true })
   public favouriteBook?: Book;
 
   constructor(props: { name: string, email: string, born?: Date }) {
-    super(props);
+    super();
     this.name = props.name;
     this.email = props.email;
     this.born = props.born;
