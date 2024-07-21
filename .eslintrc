@@ -59,9 +59,14 @@
   },
   "overrides": [
     {
-      "files": ["scripts/**/*"],
+      "files": ["src/application.ts", "src/config/orm/index.ts"],
       "rules": {
-        "no-console": "off"
+        "no-console": [
+          "warn",
+          {
+            "allow": ["log", "warn", "error"]
+          }
+        ]
       }
     }
   ],
@@ -72,5 +77,6 @@
       },
       "typescript": {}
     }
-  }
+  },
+  "ignorePatterns": ["src/generated/"]
 }
