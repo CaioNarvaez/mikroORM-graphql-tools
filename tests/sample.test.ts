@@ -3,8 +3,8 @@ import Application from 'application';
 import { orm } from 'config/orm';
 import { SuperTest, Test } from 'supertest';
 import supertest = require('supertest');
-import { clearDatabase } from 'utils/services/clearDatabase.service';
-import { loadFixtures } from 'utils/services/loadFixtures.service';
+import { clearDatabase } from 'scripts/db/clearDatabase';
+import { seedDatabase } from 'scripts/db/seedDatabase';
 
 let request: SuperTest<Test>;
 let application: Application;
@@ -30,7 +30,7 @@ describe('Sample tests', async () => {
 
   it('should clear database and load fixtures', async () => {
     await clearDatabase(orm.orm);
-    await loadFixtures(orm.orm);
+    await seedDatabase(orm.orm);
     console.log('🚀 Database cleared, fixtures loaded');
   });
 });

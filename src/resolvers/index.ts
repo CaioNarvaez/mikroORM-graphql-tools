@@ -1,6 +1,8 @@
 import { mergeResolvers } from '@graphql-tools/merge';
-import { testResolver } from "./test.resolver";
+import { authorResolver } from "./author";
+import { bookResolver } from './book';
 
 export const resolvers = mergeResolvers([
-    testResolver,
+    authorResolver,
+    bookResolver,
 ]);

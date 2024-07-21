@@ -2,21 +2,13 @@ import express from 'express';
 import 'express-async-errors';
 
 import bodyParser from 'body-parser';
-import { PublisherType } from 'enums/publisherType.enum';
 import cors from 'cors';
 import { graphqlHTTP } from 'express-graphql';
 import expressPlayground from 'graphql-playground-middleware-express';
 import { Server } from 'http';
-import { registerEnumType } from 'type-graphql';
 import { MyContext } from 'config/interfaces/context';
 import { initOrm, orm, config } from 'config/orm';
 import { schema } from 'schema';
-
-// TODO: create service for this
-registerEnumType(PublisherType, {
-  name: 'PublisherType',
-  description: 'Type of the publisher',
-});
 
 export default class Application {
   public host: express.Application | null = null;
@@ -46,7 +38,7 @@ export default class Application {
         bodyParser.json(),
         graphqlHTTP((req, res) => ({
           schema,
-          context: { req, res, em: orm.entityManager.fork() } as MyContext,
+          context: { req, res, em: orm.entityManager } as MyContext,
           customFormatErrorFn: (error) => {
             throw error;
           },

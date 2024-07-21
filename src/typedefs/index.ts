@@ -1,8 +1,8 @@
 import { mergeTypeDefs } from '@graphql-tools/merge';
-import { testTypedefs } from "./test.typedef";
-import { rootTypes } from './rootTypes';
+import { authorTypedef } from "./author";
+import { bookTypedefs } from './book';
 
 export const typeDefs = mergeTypeDefs([
-    rootTypes,
-    testTypedefs,
+    authorTypedef,
+    bookTypedefs,
 ]);

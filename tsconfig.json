@@ -9,6 +9,8 @@
     "lib": ["ES2020"],
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./",
     "moduleResolution": "node",
     "removeComments": true,
     "experimentalDecorators": true,
@@ -21,12 +23,11 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "baseUrl": ".",
     "typeRoots": ["src/config/types", "node_modules/@types"],
     "paths": {
       "*": ["./src/*", "./tests/*"]
     }
   },
   "exclude": ["node_modules"],
-  "include": ["./src/**/*.ts", "./tests/**/*.ts"]
+  "include": ["./src/**/*.ts", "../tests/**/*.ts"]
 }

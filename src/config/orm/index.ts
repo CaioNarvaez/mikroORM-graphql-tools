@@ -1,4 +1,5 @@
 import { EntityManager, FlushMode, MikroORM, Options, PostgreSqlDriver } from "@mikro-orm/postgresql"
+import { allEntities } from "../../entities";
 
 
 export const config: Options = {
@@ -11,12 +12,12 @@ export const config: Options = {
     tsNode: process.env.NODE_DEV === 'true',
     user: 'root',
     password: 'root',
-    dbName: 'mikro-orm-graphql-data',
+    dbName: 'postgres',
     host: 'localhost',
     port: 5432,
-    entities: ['dist/**/*.entity.js'],
-    entitiesTs: ['src/**/*.entity.ts'],
+    entities: allEntities,
     driver: PostgreSqlDriver,
+    allowGlobalContext: true
 };
   
 

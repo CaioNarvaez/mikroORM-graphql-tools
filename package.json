@@ -12,7 +12,9 @@
     "start": "yarn build && cross-env NODE_PATH=./dist/src node dist/src/index.js",
     "lint": "eslint src/**/*.ts --fix",
     "test": "cross-env NODE_DEV=true NODE_ENV=test ts-mocha ./tests/**/*.test.ts --package package.json",
-    "loadFixtures": "yarn test --grep \"should clear database and load fixtures\"",
+    "seed": "ts-node ./src/scripts/db/runSeedScript.ts \"should clear database and seed\"",
+    "migration:create": "yarn mikro-orm migration:create",
+    "migration:up": "yarn mikro-orm migration:up",
     "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
