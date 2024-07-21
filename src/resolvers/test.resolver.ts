@@ -1,6 +1,11 @@
+import { Resolvers } from "generated/resolvers-types";
+import createSimpleUuid from "utils/helpers/createSimpleUuid.helper";
 
-export const testResolver = {
+export const testResolver : Resolvers = {
     Query: {
-        tests: () => [{ id: '1'}, { id: '2'}]
+        tests: () => [],
+    },
+    Test: {
+        id: () => createSimpleUuid(Math.random())
     }
 }

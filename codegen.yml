@@ -1,0 +1,23 @@
+schema: "./src/typedefs/index.ts"
+require: "ts-node/register/transpile-only"
+overwrite: true
+generates:
+  ./src/generated/resolvers-types.ts:
+    config:
+      avoidOptionals: true
+      strictScalars: true
+      immutableTypes: true
+      maybeValue: T
+      strict: true
+      noSchemaStitching: true
+      contextType: "{}"
+      enumsAsTypes: true
+      mapperTypeSuffix: Model
+      mappers:
+        # Author: ../entities#Author
+        # Book: ../entities#Book
+        # Publisher: ../entities#Publisher
+        # Tag: ../entities#Tag
+    plugins:
+      - typescript
+      - typescript-resolvers

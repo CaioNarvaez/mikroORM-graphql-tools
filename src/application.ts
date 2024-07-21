@@ -10,9 +10,7 @@ import { Server } from 'http';
 import { registerEnumType } from 'type-graphql';
 import { MyContext } from 'config/interfaces/context';
 import { initOrm, orm, config } from 'config/orm';
-import { makeExecutableSchema } from '@graphql-tools/schema';
-import { typeDefs } from 'typedefs';
-import { resolvers } from 'resolvers';
+import { schema } from 'schema';
 
 // TODO: create service for this
 registerEnumType(PublisherType, {
@@ -43,13 +41,11 @@ export default class Application {
     this.host.use(cors());
 
     try {
-      const schemaTools = makeExecutableSchema({typeDefs, resolvers});
-
       this.host.post(
         '/graphql',
         bodyParser.json(),
         graphqlHTTP((req, res) => ({
-          schema: schemaTools,
+          schema,
           context: { req, res, em: orm.entityManager.fork() } as MyContext,
           customFormatErrorFn: (error) => {
             throw error;
