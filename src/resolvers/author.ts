@@ -1,12 +1,12 @@
-import { orm } from "config/orm";
-import { Author } from "entities";
-import { Resolvers } from "generated/resolvers-types";
+import { orm } from "../config/orm";
+import { Resolvers } from "../generated/resolvers-types";
 
 export const authorResolver : Partial<Resolvers> = {
     Author: {
         termsAccepted: (parent) => Boolean(parent.termsAccepted),
+        numberOfBooksWritten: (parent) => orm.authorRepository.getNumberOfBooksFromAuthorByAuthorId(parent.id)
     },
     Query: {
-        authors: async () => orm.entityManager.getRepository(Author).findAll(),
+        authors: async () => orm.authorRepository.findAll(),
     },
 }

@@ -40,6 +40,7 @@
     "class-validator": "^0.12.2",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
+    "dataloader": "2.2.2",
     "dotenv": "^8.2.0",
     "eslint": "8.57.0",
     "eslint-config-airbnb-base": "15.0.0",
