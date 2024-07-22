@@ -1,8 +1,9 @@
 import { Cascade, Collection, Entity, ManyToOne, OneToMany, Property, Unique } from '@mikro-orm/postgresql';
 import { Book } from './book';
 import { AbstractBaseEntity } from './abstractBaseEntity';
+import { CustomAuthorRepository } from '../repositories';
 
-@Entity()
+@Entity({ repository: () => CustomAuthorRepository })
 export class Author extends AbstractBaseEntity {
   @Property()
   public name: string;
