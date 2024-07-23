@@ -4,8 +4,14 @@ export const bookTypedefs = `
     title: String!
   }
 
+  type BookWithAuthor {
+    title: String!
+    authorName: String!
+  }
+
   type Query {
     books: [Book!]!
+    booksWithAuthor: [BookWithAuthor!]!
   }
 
   input AddBookInput {
