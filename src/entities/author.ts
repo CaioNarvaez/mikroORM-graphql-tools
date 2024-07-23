@@ -1,7 +1,8 @@
-import { Cascade, Collection, Entity, ManyToOne, OneToMany, Property, Unique } from '@mikro-orm/postgresql';
+import { Cascade, Collection, Embedded, Entity, ManyToOne, OneToMany, Property, Unique } from '@mikro-orm/postgresql';
 import { Book } from './book';
 import { AbstractBaseEntity } from './abstractBaseEntity';
 import { CustomAuthorRepository } from '../repositories';
+import { Social } from './embeddables';
 
 @Entity({ repository: () => CustomAuthorRepository })
 export class Author extends AbstractBaseEntity {
@@ -23,6 +24,9 @@ export class Author extends AbstractBaseEntity {
 
   @ManyToOne(() => Book, { nullable: true })
   public favouriteBook?: Book;
+
+  @Embedded(() => Social, { object: true })
+  public social?: Social = new Social();
 
   constructor(props: { name: string, email: string, born?: Date }) {
     super();

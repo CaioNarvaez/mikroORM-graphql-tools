@@ -1,3 +1,4 @@
+import { Migrator } from '@mikro-orm/migrations';
 import { EntityManager, EntityRepository, FlushMode, MikroORM, Options, PostgreSqlDriver } from "@mikro-orm/postgresql"
 import { allEntities, Author, Book, Publisher, Tag } from "../../entities";
 import { CustomAuthorRepository } from "../../repositories";
@@ -18,7 +19,8 @@ export const config: Options = {
     port: 5432,
     entities: allEntities,
     driver: PostgreSqlDriver,
-    allowGlobalContext: true
+    allowGlobalContext: true,
+    extensions: [Migrator]
 };
   
 
@@ -51,3 +53,4 @@ export async function initOrm({config, migrateDb}: { config: Options; migrateDb:
     }
 }
 
+export default config;
