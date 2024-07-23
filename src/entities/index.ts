@@ -3,6 +3,7 @@ import { Author } from './author';
 import { Book } from './book';
 import { Publisher } from './publisher';
 import { Tag } from './tag';
+import { BookWithAuthorVirtual } from './virtuals';
 
 export * from './author';
 export * from './book';
@@ -15,4 +16,5 @@ export const allEntities: EntityClass<AnyEntity>[] = [
     Book,
     Publisher,
     Tag,
+    BookWithAuthorVirtual,
 ];
