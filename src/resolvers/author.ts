@@ -8,5 +8,6 @@ export const authorResolver : Partial<Resolvers> = {
     },
     Query: {
         authors: async () => orm.authorRepository.findAll(),
+        authorsPaginated: async (_, args) => orm.authorRepository.getPaginated(args)
     },
-}
+} 
