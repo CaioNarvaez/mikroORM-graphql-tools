@@ -1,6 +1,7 @@
-import { AuthorFilterField, AuthorFilterGroup, AuthorOrderBy, AuthorOrderField, InputMaybe } from "../generated/resolvers-types";
+import { Author, AuthorFilterField, AuthorFilterGroup, AuthorOrderBy, AuthorOrderField, InputMaybe } from "../generated/resolvers-types";
 import { FilterGroupOperation, FilterOperation, FiltersMap, OrderMap } from "./helpers/types";
 import { convertFilters } from "./helpers";
+import { OrderDefinition } from "@mikro-orm/postgresql";
 
 const authorOrderMap: OrderMap<AuthorOrderField> = {
   NAME: {
@@ -38,7 +39,7 @@ const authorFiltersMap: FiltersMap<AuthorFilterField> = {
 
 // ToDo: transform it in a generic util function
 export function getAuthorOrderByQuery(orderByGroup: InputMaybe<readonly AuthorOrderBy[]> | undefined) {
-  let orderByQuery = {};
+  let orderByQuery: OrderDefinition<Author> = { name: 'ASC' }; // default
   if(!orderByGroup || !orderByGroup.length) {
     return orderByQuery
   }
@@ -48,7 +49,7 @@ export function getAuthorOrderByQuery(orderByGroup: InputMaybe<readonly AuthorOr
     orderByQuery = { ...orderByQuery, [path]: orderBy.direction };
   }
 
-  return [orderByQuery];
+  return orderByQuery;
 }
 
 // ToDo: transform it in a generic util function
