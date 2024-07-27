@@ -3,7 +3,7 @@ import { EntityRepository } from "@mikro-orm/postgresql";
 import { orm } from "../config/orm";
 import { Author } from "../entities";
 import { QueryauthorsPaginatedArgs } from "../generated/resolvers-types";
-import { getAuthorFilterQuery, getAuthorOrderByQuery } from "../paginatedFilters";
+import { getAuthorFilter, getAuthorOrderBy } from "../paginatedFilters";
 
 export class CustomAuthorRepository extends EntityRepository<Author> {
 
@@ -31,8 +31,8 @@ export class CustomAuthorRepository extends EntityRepository<Author> {
 
   async getPaginated(options: QueryauthorsPaginatedArgs) {
     const { after, filterBy, first, orderBy } = options;
-    const filterQuery = getAuthorFilterQuery(filterBy);
-    const orderByQuery = getAuthorOrderByQuery(orderBy); 
+    const filterQuery = getAuthorFilter(filterBy);
+    const orderByQuery = getAuthorOrderBy([...orderBy ?? []]);
     try {
       const results = await this.findByCursor(filterQuery, {
         first,

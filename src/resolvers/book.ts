@@ -11,17 +11,13 @@ export const bookResolver : Resolvers = {
     Mutation: {
         addBook: async (_, { input }) => {
             const { title, authorId } = input;
-
             const author = await orm.entityManager.getRepository(Author).findOneOrFail({ id: authorId });
-
             const book = new Book({
                 author,
                 title
             })
-
             orm.entityManager.persist(book);
             await orm.entityManager.flush();
-
             return book;
         }
     }
