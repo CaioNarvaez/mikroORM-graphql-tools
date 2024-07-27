@@ -29,7 +29,7 @@ export class CustomAuthorRepository extends EntityRepository<Author> {
     );
 
 
-  async getPaginated(options: Partial<QueryauthorsPaginatedArgs>) {
+  async getPaginated(options: QueryauthorsPaginatedArgs) {
     const { after, filterBy, first, orderBy } = options;
     const filterQuery = getAuthorFilterQuery(filterBy);
     const orderByQuery = getAuthorOrderByQuery(orderBy); 

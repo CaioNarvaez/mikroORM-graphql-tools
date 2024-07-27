@@ -1,7 +1,7 @@
+import { OrderDefinition } from "@mikro-orm/postgresql";
 import { Author, AuthorFilterField, AuthorFilterGroup, AuthorOrderBy, AuthorOrderField, InputMaybe } from "../generated/resolvers-types";
 import { FilterGroupOperation, FilterOperation, FiltersMap, OrderMap } from "./helpers/types";
 import { convertFilters } from "./helpers";
-import { OrderDefinition } from "@mikro-orm/postgresql";
 
 const authorOrderMap: OrderMap<AuthorOrderField> = {
   NAME: {

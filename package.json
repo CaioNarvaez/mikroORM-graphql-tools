@@ -36,6 +36,7 @@
     "@typescript-eslint/eslint-plugin": "7.16.0",
     "@typescript-eslint/parser": "7.16.0",
     "body-parser": "^1.19.0",
+    "calendar-date": "2.6.2",
     "chai": "^4.2.0",
     "class-validator": "^0.12.2",
     "cors": "^2.8.5",

@@ -15,6 +15,7 @@ export const authorTypedef = `
     name: String!
     termsAccepted: Boolean!
     numberOfBooksWritten: Int!
+    born: CalendarDate
   }
 
   type AuthorConnection {

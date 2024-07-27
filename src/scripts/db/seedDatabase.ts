@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { MikroORM } from '@mikro-orm/postgresql';
 import { v4 } from 'uuid';
+import { CalendarDate } from 'calendar-date';
 import { Author, Book, Publisher, Tag } from '../../entities';
 import { PublisherType } from '../../enums';
 
@@ -35,7 +36,7 @@ export const seedDatabase = async (orm: MikroORM): Promise<void> => {
       const author = new Author({
         name: `author ${authorIndex + 1}`,
         email: faker.internet.email(),
-        born: new Date(new Date().setFullYear(1994)),
+        born: new CalendarDate('1994-01-01')
       });
 
       // setting temporary id for test purposes
