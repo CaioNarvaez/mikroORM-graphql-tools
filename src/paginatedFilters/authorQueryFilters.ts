@@ -1,6 +1,12 @@
-import { AuthorFilterField, AuthorFilterGroup } from "../generated/resolvers-types";
-import { FilterGroupOperation, FilterOperation, FiltersMap } from "./helpers/types";
+import { AuthorFilterField, AuthorFilterGroup, AuthorOrderBy, AuthorOrderField, InputMaybe } from "../generated/resolvers-types";
+import { FilterGroupOperation, FilterOperation, FiltersMap, OrderMap } from "./helpers/types";
 import { convertFilters } from "./helpers";
+
+const authorOrderMap: OrderMap<AuthorOrderField> = {
+  NAME: {
+    path: 'name'
+  },
+};
 
 const authorFiltersMap: FiltersMap<AuthorFilterField> = {
     NAME: {
@@ -30,21 +36,32 @@ const authorFiltersMap: FiltersMap<AuthorFilterField> = {
 };
 
 
+// ToDo: transform it in a generic util function
+export function getAuthorOrderByQuery(orderByGroup: InputMaybe<readonly AuthorOrderBy[]> | undefined) {
+  let orderByQuery = {};
+  if(!orderByGroup || !orderByGroup.length) {
+    return orderByQuery
+  }
+
+  for (const orderBy of orderByGroup) {
+    const {path} = authorOrderMap[orderBy.field];
+    orderByQuery = { ...orderByQuery, [path]: orderBy.direction };
+  }
+
+  return [orderByQuery];
+}
 
 // ToDo: transform it in a generic util function
 export function getAuthorFilterQuery(filter: AuthorFilterGroup | undefined) {
     if(!filter) {
         return {};
     }
-
     const filters = convertFilters(filter.filters as { field: AuthorFilterField; operation: FilterOperation; value: string }[], authorFiltersMap);
-
     if(filter.operation === FilterGroupOperation.OR) {
         return {
             $or: [...filters]
         }
     }
-
     return {
         $and: [...filters]
     }

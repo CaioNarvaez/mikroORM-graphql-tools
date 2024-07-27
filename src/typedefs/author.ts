@@ -20,14 +20,14 @@ export const authorTypedef = `
   type AuthorConnection {
     items: [Author!]!
     hasNextPage: Boolean!
-    hasPreviousPage: Boolean!
+    hasPrevPage: Boolean!
     startCursor: String
     endCursor: String
   }
 
   input AuthorOrderBy {
     field: AuthorOrderField!
-    operation: OrderOperator!
+    direction: OrderByDirection!
   }
 
   input AuthorFilter {

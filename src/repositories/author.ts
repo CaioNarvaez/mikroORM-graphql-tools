@@ -3,7 +3,7 @@ import { EntityRepository } from "@mikro-orm/postgresql";
 import { orm } from "../config/orm";
 import { Author } from "../entities";
 import { QueryauthorsPaginatedArgs } from "../generated/resolvers-types";
-import { getAuthorFilterQuery } from "../paginatedFilters";
+import { getAuthorFilterQuery, getAuthorOrderByQuery } from "../paginatedFilters";
 
 export class CustomAuthorRepository extends EntityRepository<Author> {
 
@@ -29,48 +29,24 @@ export class CustomAuthorRepository extends EntityRepository<Author> {
     );
 
 
-  // ToDo: refactor and improve this function to more generic and better readable
   async getPaginated(options: Partial<QueryauthorsPaginatedArgs>) {
-    const { after, filterBy, first } = options;
-    
+    const { after, filterBy, first, orderBy } = options;
     const filterQuery = getAuthorFilterQuery(filterBy);
-    // ToDo: create generic util for orderBy query
-    // const order = orderBy ?? {}; 
-
+    const orderByQuery = getAuthorOrderByQuery(orderBy); 
     try {
       const results = await this.findByCursor(filterQuery, {
         first,
         after,
-        orderBy: [{
-          name: 'ASC' // Default
-        }],
+        orderBy: orderByQuery,
       });
-
-      // Transform the result into AuthorConnection format
-      const items = results.items.map(item => item);
-      const hasPreviousPage = results.hasPrevPage;
-      const {hasNextPage} = results;
-      const {totalCount} = results;
-      const {endCursor} = results;
-      const {startCursor} = results;
-
-      return {
-        items,
-        hasPreviousPage,
-        hasNextPage,
-        totalCount,
-        endCursor,
-        startCursor,
-      };
-
+      return results;
     } catch (error) {
       console.error('Error fetching paginated results:', error);
       throw new Error('Failed to fetch paginated results');
     }
   }
 
-
-    async getNumberOfBooksFromAuthorByAuthorId(authorId: string) {
-        return this.testDataloader.load(authorId);
-    }
+  async getNumberOfBooksFromAuthorByAuthorId(authorId: string) {
+    return this.testDataloader.load(authorId);
+  }
 }
