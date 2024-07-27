@@ -25,6 +25,10 @@ export type FilterObject = {
 };
 
 // Define a type for the filter map
-export type FiltersMap<FieldType extends string | number | symbol> = {
+export type FiltersMap<FieldType extends string> = {
     [key in FieldType]: FilterObject;
+};
+
+export type OrderMap<FieldType extends string> = {
+    [key in FieldType]: { path: string };
 };

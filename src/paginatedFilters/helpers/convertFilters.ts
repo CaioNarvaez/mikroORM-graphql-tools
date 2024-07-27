@@ -1,7 +1,7 @@
 import { FilterOperation, FiltersMap } from "./types";
 
 // Function to convert filters using a generic filter map
-export function convertFilters<FieldType extends string | number | symbol>(
+export function convertFilters<FieldType extends string>(
   filters: { field: FieldType; operation: FilterOperation; value: string }[],
   filtersMap: FiltersMap<FieldType>
 ) {

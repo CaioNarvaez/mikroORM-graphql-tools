@@ -16,7 +16,7 @@ enum FilterGroupOperator {
   OR
 }
 
-enum OrderOperator {
+enum OrderByDirection {
   ASC
   DESC
 }
