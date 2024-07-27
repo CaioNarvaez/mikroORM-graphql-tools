@@ -20,6 +20,11 @@ generates:
         Book: ../entities#Book
         Publisher: ../entities#Publisher
         Tag: ../entities#Tag
+      scalars: 
+        CalendarDate: CalendarDate
     plugins:
       - typescript
       - typescript-resolvers
+      - add:
+          content:
+            - 'import { CalendarDate } from "calendar-date";'

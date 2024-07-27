@@ -21,4 +21,5 @@ enum OrderByDirection {
   DESC
 }
 
+scalar CalendarDate
 `;
