@@ -19,7 +19,19 @@ export const bookTypedefs = `
     title: String!
   }
 
+  type AddBookPayloadSuccess {
+    book: Book!
+  }
+
+  type AddBookPayloadProblem {
+    title: String!
+    description: String!
+  }
+
+  union AddBookPayload = AddBookPayloadSuccess | AddBookPayloadProblem
+  
+
   type Mutation {
-    addBook(input: AddBookInput!) : Book!
+    addBook(input: AddBookInput!) : AddBookPayload!
   }
 `;

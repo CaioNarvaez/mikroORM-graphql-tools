@@ -11,14 +11,28 @@ export const bookResolver : Resolvers = {
     Mutation: {
         addBook: async (_, { input }) => {
             const { title, authorId } = input;
-            const author = await orm.entityManager.getRepository(Author).findOneOrFail({ id: authorId });
+            const author = await orm.entityManager.getRepository(Author).findOne({ id: authorId });
+            if(!author) {
+                return {
+                    title: 'Author not found',
+                    description: `Author with id: ${authorId} does not exist in the database.`
+                }
+            }
             const book = new Book({
                 author,
                 title
             })
             orm.entityManager.persist(book);
             await orm.entityManager.flush();
-            return book;
+            return { book };
         }
-    }
+    },
+    AddBookPayload: {
+        __resolveType(obj) {
+          if (obj.__typename === 'AddBookPayloadSuccess') {
+            return 'AddBookPayloadSuccess';
+          }
+          return 'AddBookPayloadProblem';
+        },
+    },
 }
