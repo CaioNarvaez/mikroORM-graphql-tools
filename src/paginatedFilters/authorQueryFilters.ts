@@ -1,7 +1,8 @@
 import { OrderDefinition } from "@mikro-orm/postgresql";
-import { Author, AuthorFilterField, AuthorFilterGroup, AuthorOrderBy, AuthorOrderField, InputMaybe } from "../generated/resolvers-types";
-import { FilterGroupOperation, FilterOperation, FiltersMap, OrderMap } from "./helpers/types";
-import { convertFilters } from "./helpers";
+import { Author, AuthorFilterField, AuthorFilterGroup, AuthorOrderBy, AuthorOrderField, FilterOperation } from "../generated/resolvers-types";
+import { FilterQueryOperations, FiltersMap, OrderMap } from "./utils/types";
+import { getOrderByQuery } from "./utils";
+import { getFilterQuery } from "./utils/getFilterQuery";
 
 const authorOrderMap: OrderMap<AuthorOrderField> = {
   NAME: {
@@ -13,9 +14,9 @@ const authorFiltersMap: FiltersMap<AuthorFilterField> = {
     NAME: {
       getFilter: (operation: FilterOperation, value: string) => {
         switch (operation) {
-          case FilterOperation.EQ:
+          case FilterQueryOperations.EQ:
             return { name: value };
-          case FilterOperation.NE:
+          case FilterQueryOperations.NE:
             return { name : { $ne: value } };
           default:
             throw new Error(`Invalid filter operation ${operation}`);
@@ -25,9 +26,9 @@ const authorFiltersMap: FiltersMap<AuthorFilterField> = {
     EMAIL: {
       getFilter: (operation: FilterOperation, value: string) => {
         switch (operation) {
-          case FilterOperation.EQ:
+          case FilterQueryOperations.EQ:
             return { email: value };
-          case FilterOperation.NE:
+          case FilterQueryOperations.NE:
             return { email : { $ne: value } };
           default:
             throw new Error(`Invalid filter operation ${operation}`);
@@ -37,33 +38,15 @@ const authorFiltersMap: FiltersMap<AuthorFilterField> = {
 };
 
 
-// ToDo: transform it in a generic util function
-export function getAuthorOrderByQuery(orderByGroup: InputMaybe<readonly AuthorOrderBy[]> | undefined) {
-  let orderByQuery: OrderDefinition<Author> = { name: 'ASC' }; // default
-  if(!orderByGroup || !orderByGroup.length) {
-    return orderByQuery
-  }
-
-  for (const orderBy of orderByGroup) {
-    const {path} = authorOrderMap[orderBy.field];
-    orderByQuery = { ...orderByQuery, [path]: orderBy.direction };
-  }
-
-  return orderByQuery;
+export function getAuthorOrderBy(orderByGroup: AuthorOrderBy[]) {
+  const defaultAuthorOrderBy: OrderDefinition<Author> = { name: 'ASC' };
+  return getOrderByQuery<Author, AuthorOrderField>(
+    authorOrderMap,
+    orderByGroup,
+    defaultAuthorOrderBy
+  );
 }
 
-// ToDo: transform it in a generic util function
-export function getAuthorFilterQuery(filter: AuthorFilterGroup | undefined) {
-    if(!filter) {
-        return {};
-    }
-    const filters = convertFilters(filter.filters as { field: AuthorFilterField; operation: FilterOperation; value: string }[], authorFiltersMap);
-    if(filter.operation === FilterGroupOperation.OR) {
-        return {
-            $or: [...filters]
-        }
-    }
-    return {
-        $and: [...filters]
-    }
+export function getAuthorFilter(filter: AuthorFilterGroup) {
+  return getFilterQuery<AuthorFilterField>(filter, authorFiltersMap);
 }

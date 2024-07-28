@@ -4,7 +4,7 @@ import { Book } from './book';
 import { AbstractBaseEntity } from './abstractBaseEntity';
 import { CustomAuthorRepository } from '../repositories';
 import { Social } from './embeddables';
-import { CalendarDateType } from './customTypes';
+import { CalendarDateType } from '../customTypes';
 
 @Entity({ repository: () => CustomAuthorRepository })
 export class Author extends AbstractBaseEntity {

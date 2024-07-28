@@ -1,5 +1,7 @@
+import { FilterOperation } from "generated/resolvers-types";
+
 // Define the filter operations
-export enum FilterOperation {
+export enum FilterQueryOperations {
     EQ = 'EQ',
     NE = 'NE',
     LT = 'LT',
@@ -9,11 +11,6 @@ export enum FilterOperation {
     IN = 'IN',
     NIN = 'NIN',
     LIKE = 'LIKE'
-}
-
-export enum FilterGroupOperation {
-    OR = 'OR',
-    AND = 'AND',
 }
 
 // Define a type for the filter function
