@@ -59,7 +59,7 @@
   },
   "overrides": [
     {
-      "files": ["src/application.ts", "src/config/orm/index.ts"],
+      "files": ["src/application.ts", "src/config/orm/index.ts", "src/scripts/db/runSeedScript.ts"],
       "rules": {
         "no-console": [
           "warn",
